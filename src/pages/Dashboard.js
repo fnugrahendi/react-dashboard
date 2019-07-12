@@ -180,9 +180,7 @@ const Dashboard = (props) => {
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
                 <Container maxWidth="lg" className={classes.container}>
-                    <Grid container spacing={3}>
-                        <ContentWrapper viewMode={props.viewMode}/>
-                    </Grid>
+                    <ContentWrapper viewMode={props.viewMode}/>
                 </Container>
             </main>
         </div>
