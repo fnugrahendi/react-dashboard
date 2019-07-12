@@ -6,10 +6,10 @@ import Dashboard from '../pages/Dashboard'
 export default function Layout() {
     return (
         <Consumer>
-            {({ isLoggedIn, login, logout, viewMode, changeViewMode }) => {
+            {({ isLoggedIn, loginErrorMessage, isLoggingIn, login, logout, viewMode, changeViewMode }) => {
                 return isLoggedIn ?
                     <Dashboard logout={logout} viewMode={viewMode} changeViewMode={changeViewMode} /> : 
-                    <Login login={login}/>
+                    <Login login={login} isLoggingIn={isLoggingIn} loginErrorMessage={loginErrorMessage}/>
             }}
         </Consumer>
     );
