@@ -8,14 +8,20 @@ const baseUrl = "https://reqres.in/api"
 
 export const ViewModeEnum = {
     MAIN : "MAIN",
-    LIST: "LIST"
+    LIST: "LIST",
+    REGISTER: "REGISTER",
 }
 
 const AppContextProvider = (props) => {
     const [isLoggedIn, setLogin] = useState(false)
     const [isLoggingIn, setIsLoggingIn] = useState(false)
-    const [viewMode, setViewMode] = useState(ViewModeEnum.MAIN)
     const [loginErrorMessage, setLoginErrorMessage] = useState("")
+
+    const [isRegistering, setIsRegistering] = useState(false)
+    const [registerMessage, setRegisterMessage] = useState("")
+
+    const [viewMode, setViewMode] = useState(ViewModeEnum.MAIN)
+    
     const [resources, setResources] = useState([])
 
     const changeViewMode = (viewMode) => {
@@ -27,9 +33,13 @@ const AppContextProvider = (props) => {
     }
 
     const getResources = async () => {
-        const resp = await axios.get(`${baseUrl}/resources`)
-        const data = resp.data.data ? resp.data.data : []
-        setResources(data)
+        try {
+            const resp = await axios.get(`${baseUrl}/resources`)
+            const data = resp.data.data ? resp.data.data : []
+            setResources(data)
+        } catch {
+            console.log("error fetching resources")
+        }
     }
 
     const login = async (email, password) => {
@@ -51,18 +61,37 @@ const AppContextProvider = (props) => {
         setLogin(false)
     }
 
+    const register = async (email, password) => {
+        setIsRegistering(true)
+        setRegisterMessage({})
+        try {
+            const registerResp = await axios.post(`${baseUrl}/register`, { 
+                email: email,
+                password: password
+            })
+            console.log(registerResp)
+            setRegisterMessage({message: "Register success", success: true})
+        } catch {
+            setRegisterMessage({message: "Register failed. Missing field", success: false})
+        }
+        setIsRegistering(false)
+    }
+
     return (
         <AppContext.Provider
             value={{
                 isLoggedIn,
                 isLoggingIn,
                 loginErrorMessage,
+                isRegistering,
+                registerMessage,
                 viewMode,
                 resources,
                 getResources,
                 changeViewMode,
                 login,
                 logout,
+                register,
             }}>
             {props.children}
         </AppContext.Provider>

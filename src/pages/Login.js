@@ -8,6 +8,7 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { makeStyles } from '@material-ui/core/styles'
+import { ViewModeEnum } from '../AppContext';
 
 const useStyles = makeStyles(theme => ({
     '@global': {
@@ -41,7 +42,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const Login = ({ login, isLoggingIn, loginErrorMessage }) => {
+const Login = ({ login, isLoggingIn, loginErrorMessage, changeViewMode }) => {
     const emailRef = useRef()
     const passwordRef = useRef()
     const classes = useStyles();
@@ -96,7 +97,7 @@ const Login = ({ login, isLoggingIn, loginErrorMessage }) => {
                     </Button>
                     <Grid container>
                         <Grid item>
-                            <Link href="#" variant="body2" align="center">
+                            <Link href="#" onClick={() => changeViewMode(ViewModeEnum.REGISTER)} variant="body2" align="center">
                                 {"Don't have an account? Sign Up"}
                             </Link>
                         </Grid>
