@@ -23,6 +23,8 @@ const AppContextProvider = (props) => {
     const [viewMode, setViewMode] = useState(ViewModeEnum.MAIN)
     
     const [resources, setResources] = useState([])
+    const [isFetchingData, setIsFetchingData] = useState(false)
+    const [fetchingDataResult, setfetchingDataResult] = useState({})
 
     const changeViewMode = (viewMode) => {
         if (Object.values(ViewModeEnum).indexOf(viewMode) > -1) {
@@ -30,6 +32,53 @@ const AppContextProvider = (props) => {
         } else {
             console.log("incorrect view mode")
         }
+    }
+
+    const addResource = async (inputData) => {
+        setIsFetchingData(true)
+        setfetchingDataResult({})
+        try {
+            const resp = await axios.post(`${baseUrl}/users`, inputData)
+            const data = resp.data.data ? resp.data.data : []
+            setfetchingDataResult({success: true, message: "Successfully create new resource"})
+        } catch {
+            setfetchingDataResult({success: false, message: "Failed to create new resource"})
+        }
+        setIsFetchingData(false)
+    }
+
+    const editResource = async (inputData) => {
+        setIsFetchingData(true)
+        setfetchingDataResult({})
+        try {
+            const resp = await axios.put(`${baseUrl}/users`, inputData)
+            const data = resp.data.data ? resp.data.data : []
+            setfetchingDataResult({success: true, message: "Successfully edit resource"})
+        } catch {
+            setfetchingDataResult({success: false, message: "Failed to edit resource"})
+        }
+        setIsFetchingData(false)
+    }
+
+    const deleteResource = async (id) => {
+        setIsFetchingData(true)
+        setfetchingDataResult({})
+        try {
+            const resp = await axios.delete(`${baseUrl}/users/${id}`)
+            const data = resp.data.data ? resp.data.data : []
+            console.log(data)
+
+            let resourceArr = resources
+            if (id > -1) {
+                resourceArr.splice(id, 1);
+            }
+            setResources(resourceArr)
+
+            setfetchingDataResult({success: true, message: "Successfully delete resource"})
+        } catch {
+            setfetchingDataResult({success: false, message: "Failed to delete resource"})
+        }
+        setIsFetchingData(false)
     }
 
     const getResources = async () => {
@@ -84,6 +133,8 @@ const AppContextProvider = (props) => {
                 isLoggingIn,
                 loginErrorMessage,
                 isRegistering,
+                isFetchingData,
+                fetchingDataResult,
                 registerMessage,
                 viewMode,
                 resources,
@@ -92,6 +143,10 @@ const AppContextProvider = (props) => {
                 login,
                 logout,
                 register,
+                addResource,
+                editResource,
+                deleteResource,
+                setfetchingDataResult
             }}>
             {props.children}
         </AppContext.Provider>

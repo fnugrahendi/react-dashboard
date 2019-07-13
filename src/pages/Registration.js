@@ -104,7 +104,12 @@ const Registration = ({ register, isRegistering, registerMessage, changeViewMode
                     }
                     {
                         (registerMessage.success && registerMessage.message) &&
-                        <Button color="default" onClick={() => changeViewMode(ViewModeEnum.MAIN)}>Back to Login</Button>
+                        <React.Fragment>
+                            <Typography variant="subtitle1" gutterBottom>
+                                {registerMessage.message}
+                            </Typography>
+                            <Button color="default" onClick={() => changeViewMode(ViewModeEnum.MAIN)}>Back to Login</Button>
+                        </React.Fragment>
                     }
                 </div>
             </div>
