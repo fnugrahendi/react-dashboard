@@ -40,6 +40,7 @@ const AppContextProvider = (props) => {
         try {
             const resp = await axios.post(`${baseUrl}/users`, inputData)
             const data = resp.data.data ? resp.data.data : []
+            console.log(data)
             setfetchingDataResult({success: true, message: "Successfully create new resource"})
         } catch {
             setfetchingDataResult({success: false, message: "Failed to create new resource"})
@@ -53,6 +54,7 @@ const AppContextProvider = (props) => {
         try {
             const resp = await axios.put(`${baseUrl}/users`, inputData)
             const data = resp.data.data ? resp.data.data : []
+            console.log(data)
             setfetchingDataResult({success: true, message: "Successfully edit resource"})
         } catch {
             setfetchingDataResult({success: false, message: "Failed to edit resource"})
@@ -99,6 +101,7 @@ const AppContextProvider = (props) => {
                 email: email,
                 password: password
             })
+            console.log(loginResp)
             setLogin(true)
         } catch {
             setLoginErrorMessage("Login failed. Invalid username or password.")

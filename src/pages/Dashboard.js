@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import { fade, makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -9,17 +9,24 @@ import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ExitToApp from '@material-ui/icons/ExitToApp';
+import InputBase from '@material-ui/core/InputBase';
+import SearchIcon from '@material-ui/icons/Search';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
+
 
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 
 import ContentWrapper from '../components/ContentWrapper'
 import { ViewModeEnum } from '../AppContext';
@@ -51,6 +58,7 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
     root: {
+        flexGrow: 1,
         display: 'flex',
     },
     toolbar: {
@@ -69,6 +77,7 @@ const useStyles = makeStyles(theme => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
+        backgroundColor: '#000000db',
     },
     appBarShift: {
         marginLeft: drawerWidth,
@@ -78,6 +87,17 @@ const useStyles = makeStyles(theme => ({
             duration: theme.transitions.duration.enteringScreen,
         }),
     },
+    subHeader: {
+        zIndex: theme.zIndex.drawer - 2,
+        transition: theme.transitions.create(['width', 'margin'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        backgroundColor: '#ffffff',
+        color: '#6c757e',
+        textAlign: 'left',
+        padding: '10px 30px',
+    },
     menuButton: {
         marginRight: 36,
     },
@@ -86,6 +106,10 @@ const useStyles = makeStyles(theme => ({
     },
     title: {
         flexGrow: 1,
+        display: 'none',
+        [theme.breakpoints.up('sm')]: {
+            display: 'block',
+        },
     },
     drawerPaper: {
         position: 'relative',
@@ -95,6 +119,8 @@ const useStyles = makeStyles(theme => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
         }),
+        backgroundColor: '#91c46b',
+        color: '#1d4c06',
     },
     drawerPaperClose: {
         overflowX: 'hidden',
@@ -108,6 +134,14 @@ const useStyles = makeStyles(theme => ({
         },
     },
     appBarSpacer: theme.mixins.toolbar,
+    headerMenu: {
+        textAlign: 'left',
+        flexGrow: 1,
+    },
+    headerMenuItem: {
+        color: '#bec4ca',
+        textTransform: 'inherit',
+    },
     content: {
         flexGrow: 1,
         height: '100vh',
@@ -126,11 +160,50 @@ const useStyles = makeStyles(theme => ({
     fixedHeight: {
         height: 240,
     },
+    search: {
+        position: 'relative',
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: fade(theme.palette.common.white, 0.15),
+        '&:hover': {
+          backgroundColor: fade(theme.palette.common.white, 0.25),
+        },
+        marginLeft: 0,
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+          marginLeft: theme.spacing(1),
+          width: 'auto',
+        },
+    },
+    searchIcon: {
+    width: theme.spacing(7),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    },
+    inputRoot: {
+    color: 'inherit',
+    },
+    inputInput: {
+        padding: theme.spacing(1, 1, 1, 7),
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+            width: 120,
+            '&:focus': {
+            width: 200,
+            },
+        },
+    },
 }));
 
 const Dashboard = (props) => {
     const classes = useStyles();
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const accountMenuOpen = Boolean(anchorEl);
     
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -138,6 +211,13 @@ const Dashboard = (props) => {
     const handleDrawerClose = () => {
         setOpen(false);
     };
+    function handleMenu(event) {
+        setAnchorEl(event.currentTarget);
+    }
+
+    function handleClose() {
+        setAnchorEl(null);
+    }
     return (
         <div className={classes.root}>
             <CssBaseline />
@@ -151,9 +231,58 @@ const Dashboard = (props) => {
                         className={clsx(classes.menuButton, open && classes.menuButtonHidden)}>
                         <MenuIcon />
                     </IconButton>
-                    <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                        Dashboard
-                    </Typography>
+                    <div className={classes.headerMenu}>
+                        <Button className={classes.headerMenuItem} aria-controls="simple-menu" aria-haspopup="true">
+                            + Add User
+                        </Button>
+                        <Button className={classes.headerMenuItem} aria-controls="simple-menu" aria-haspopup="true">
+                            User Preferences
+                        </Button>
+                        <Button className={classes.headerMenuItem} aria-controls="simple-menu" aria-haspopup="true">
+                            Settings
+                        </Button>
+                    </div>
+                    <div className={classes.search}>
+                        <div className={classes.searchIcon}>
+                        <SearchIcon />
+                        </div>
+                        <InputBase
+                            placeholder="Search…"
+                            classes={{
+                                root: classes.inputRoot,
+                                input: classes.inputInput,
+                            }}
+                            inputProps={{ 'aria-label': 'search' }}
+                        />
+                    </div>
+                    <div>
+                        <IconButton
+                            aria-label="account of current user"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            color="inherit"
+                            onClick={handleMenu}
+                        >
+                        <AccountCircle />
+                        </IconButton>
+                        <Menu
+                            id="menu-appbar"
+                            anchorEl={anchorEl}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            open={accountMenuOpen}
+                            onClose={handleClose}>
+                            <MenuItem onClick={handleClose}>Profile</MenuItem>
+                            <MenuItem onClick={handleClose}>My account</MenuItem>
+                        </Menu>
+                        </div>
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -179,6 +308,11 @@ const Dashboard = (props) => {
             </Drawer>
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
+                <AppBar position="relative" className={classes.subHeader}>
+                    <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+                        Dashboard
+                    </Typography>
+                </AppBar>
                 <Container maxWidth="lg" className={classes.container}>
                     <ContentWrapper viewMode={props.viewMode}/>
                 </Container>
