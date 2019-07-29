@@ -96,7 +96,8 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: '#ffffff',
         color: '#6c757e',
         textAlign: 'left',
-        padding: '10px 30px',
+        padding: '15px 30px',
+        boxShadow: '0px 1px 2px -1px rgba(0,0,0,0.2), 0px 2px 4px 0px rgba(0,0,0,0.14), 0px 1px 1px 0px rgba(0,0,0,0.12)',
     },
     menuButton: {
         marginRight: 36,
@@ -145,11 +146,15 @@ const useStyles = makeStyles(theme => ({
     content: {
         flexGrow: 1,
         height: '100vh',
-        overflow: 'auto',
+        overflow: 'hidden',
     },
     container: {
         paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(4),
+        height: '83vh',
+        overflowY: 'auto',
+        maxWidth: 'none',
+        backgroundColor: '#f3f3f3',
     },
     paper: {
         padding: theme.spacing(2),
