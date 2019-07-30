@@ -23,6 +23,8 @@ const AppContextProvider = (props) => {
     const [viewMode, setViewMode] = useState(ViewModeEnum.MAIN)
     
     const [resources, setResources] = useState([])
+    const [users, setUsers] = useState([])
+
     const [isFetchingData, setIsFetchingData] = useState(false)
     const [fetchingDataResult, setfetchingDataResult] = useState({})
 
@@ -93,6 +95,25 @@ const AppContextProvider = (props) => {
         }
     }
 
+    const getUsers = async () => {
+        try {
+            var userData = []
+            const resp = await axios.get(`${baseUrl}/users`)
+            const data = resp.data.data ? resp.data.data : []
+            if (data.length > 0)
+                userData = [...data]
+            console.log(data)
+            const resp_next = await axios.get(`${baseUrl}/users?page=2`)
+            const data_next = resp_next.data.data ? resp_next.data.data : []
+            console.log(data_next)
+            if (data_next.length > 0)
+                userData = [...userData, ...data_next]
+            setUsers(userData)
+        } catch {
+            console.log("error fetching resources")
+        }
+    }
+
     const login = async (email, password) => {
         setIsLoggingIn(true)
         setLoginErrorMessage("")
@@ -141,6 +162,8 @@ const AppContextProvider = (props) => {
                 registerMessage,
                 viewMode,
                 resources,
+                users,
+                getUsers,
                 getResources,
                 changeViewMode,
                 login,

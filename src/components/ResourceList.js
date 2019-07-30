@@ -69,7 +69,6 @@ const ResourceList = () => {
     return (
         <React.Fragment>
             <Paper className={fixedHeightPaper}>
-                Resource List
                 <Table className={classes.table}>
                     <TableHead>
                         <TableRow>

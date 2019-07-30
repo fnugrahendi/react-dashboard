@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Chart from "react-apexcharts";
 
+import UserGrid from '../components/UserGrid'
 import ResourceList from '../components/ResourceList'
 import { Typography } from '@material-ui/core';
 
@@ -43,9 +44,12 @@ const useStyles = makeStyles(theme => ({
     height: '90px',
   },
   sectionTitle: {
-    fontSize: '14px',
+    fontSize: '16px',
+    fontWeight: '600',
     textAlign: 'left',
-    color: '#f3f3f3',
+    marginLeft: '25px',
+    marginBottom: '15px',
+    color: '#848484',
   }
 }));
 
@@ -101,7 +105,7 @@ const pieChartData = {
 
 var gaugeChartData = {
   chart: {
-    height: 20,
+    height: 50,
     type: "radialBar",
   },
   series: [35],
@@ -120,7 +124,7 @@ var gaugeChartData = {
           show: false,
         },
         value: {
-          fontSize: "30px",
+          fontSize: "15px",
           show: true
         }
       }
@@ -140,6 +144,61 @@ var gaugeChartData = {
   },
   labels: ["Progress"]
 };
+
+var optionsRadial = {
+  plotOptions: {
+    radialBar: {
+      hollow: {
+        margin: 0,
+        size: '60%',
+        background: 'transparent',
+        dropShadow: {
+          enabled: false,
+          top: 3,
+          left: 0,
+          blur: 4,
+          opacity: 0.24
+        }
+      },
+      track: {
+        background: '#848484',
+        strokeWidth: '90%',
+        margin: 0, // margin is in pixels
+        dropShadow: {
+          enabled: false,
+          top: -3,
+          left: 0,
+          blur: 4,
+          opacity: 0.35
+        }
+      },
+
+      dataLabels: {
+        showOn: 'always',
+        name: {
+          offsetY: -20,
+          show: true,
+          color: '#888',
+          fontSize: '13px'
+        },
+        value: {
+          formatter: function (val) {
+            return val;
+          },
+          color: '#111',
+          fontSize: '20px',
+          show: true,
+        }
+      }
+    }
+  },
+  stroke: {
+    lineCap: 'butt'
+  },
+  labels: ['Percent'],
+}
+
+var seriesRadial = [76]
 
 const Main = () => {
   const classes = useStyles();
@@ -176,7 +235,7 @@ const Main = () => {
       </Grid>
       <Grid item xs={6}>
         <Paper className={classes.paper}>
-          <Typography className={classes.sectionTitle}>
+          <Typography variant="h6" className={classes.sectionTitle}>
             Active Player
           </Typography>
           <Chart
@@ -188,7 +247,7 @@ const Main = () => {
       </Grid>
       <Grid item xs={6}>
         <Paper className={classes.paper}>
-          <Typography className={classes.sectionTitle}>
+          <Typography variant="h6" className={classes.sectionTitle}>
             Active Tournaments
           </Typography>
           <Chart
@@ -199,15 +258,46 @@ const Main = () => {
         </Paper>
       </Grid>
       <Grid item xs={6}>
-        <Typography className={classes.sectionTitle} />
-        <ResourceList />
+        <Typography variant="h6" className={classes.sectionTitle}>
+          Recent Players
+        </Typography>
+        <UserGrid />
       </Grid>
       <Grid item xs={6}>
         <Paper className={classes.paper}>
-          <Chart
-            options={gaugeChartData}
-            series={gaugeChartData.series}
-            type={gaugeChartData.chart.type} />
+          <Typography variant="h6" className={classes.sectionTitle}>
+            Player Statistics
+          </Typography>
+          <Grid container style={{width: '90%'}}>
+            <Grid item xs={3}>
+              <Chart
+                options={optionsRadial}
+                series={seriesRadial}
+                type="radialBar"
+                width="220" />
+            </Grid>  
+            <Grid item xs={3}>
+              <Chart
+                  options={optionsRadial}
+                  series={seriesRadial}
+                  type="radialBar"
+                  width="220" />
+            </Grid>
+            <Grid item xs={3}>
+              <Chart
+                  options={optionsRadial}
+                  series={seriesRadial}
+                  type="radialBar"
+                  width="220" />
+            </Grid>
+            <Grid item xs={3}>
+              <Chart
+                  options={optionsRadial}
+                  series={seriesRadial}
+                  type="radialBar"
+                  width="220" />
+            </Grid>
+          </Grid>
         </Paper>
       </Grid>
     </Grid>
