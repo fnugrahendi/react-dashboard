@@ -8,18 +8,20 @@ const useStyles = makeStyles(theme => ({
         margin: '10px 10px',
     },
     avatar: {
+        width: '85%',
         borderRadius: '50%',
         maxWidth: '60px',
     },
     name: {
         fontSize: '14px',
         marginBottom: 0,
+        marginTop: 0,
         textAlign: 'left',
         fontWeight: 600,
         color: '#636363',
     },
     email: {
-        fontSize: '12px',
+        fontSize: '10px',
         marginTop: '0',
         color: '#636363',
         textAlign: 'left',
@@ -38,7 +40,7 @@ const UserGrid = (props) => {
             {
                 users && users.map((user, id) => {
                     return (
-                        <Grid className={classes.profil} item xs={4} key={`user_${id}`}>
+                        <Grid className={classes.profil} item xs={3} key={`user_${id}`}>
                             <Grid container>
                                 <Grid item xs={4}>
                                     <img className={classes.avatar} src={user.avatar ? user.avatar : undefined} alt="avatar"/>
