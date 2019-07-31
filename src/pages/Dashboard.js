@@ -11,7 +11,7 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
+import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ExitToApp from '@material-ui/icons/ExitToApp';
@@ -268,7 +268,9 @@ const Dashboard = (props) => {
                             color="inherit"
                             onClick={handleMenu}
                         >
-                        <AccountCircle />
+                             <Badge className={classes.margin} badgeContent={4} color="primary">
+                                <AccountCircle />
+                            </Badge>
                         </IconButton>
                         <Menu
                             id="menu-appbar"
