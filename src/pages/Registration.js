@@ -103,7 +103,7 @@ const Registration = ({ register, isRegistering, registerMessage, changeViewMode
                         </Typography>
                     }
                     {
-                        (registerMessage.success && registerMessage.message) &&
+                        (!registerMessage.message) &&
                         <React.Fragment>
                             <Typography variant="subtitle1" gutterBottom>
                                 {registerMessage.message}
